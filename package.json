@@ -13,6 +13,8 @@
     "repository": "lutzroeder/netron",
     "main": "source/app.js",
     "scripts": {
+        "set-proxy": "npm config set registry https://registry.npmmirror.com",
+        "unset-proxy": "npm config delete registry",
         "start": "node package.js start",
         "server": "python package.py build start",
         "test": "node test/models.js",
