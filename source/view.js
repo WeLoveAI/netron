@@ -2182,6 +2182,7 @@ view.Sidebar = class {
         }
         if (this._stack.length > 0) {
             const item = this._stack[this._stack.length - 1];
+            const nodeName = this._stack[0].content[0].children?.[1].children[1].children[0].value+""
             this._element('sidebar-title').innerHTML = item.title || '';
             submitButton.addEventListener('click', async () => {
 
@@ -2199,7 +2200,6 @@ view.Sidebar = class {
                 const attr = {}
 
                 // 获取当前节点的名字和下标
-                const nodeName = attrList?.[1].children?.[1]?.outerText
                 const nodeId = oldNodesMap[nodeName]
                 if (nodeName) {
                     for (var i = 0; i < attrList.length; i++) {
@@ -2227,6 +2227,14 @@ view.Sidebar = class {
                             MODEL._graphs[0]._nodes[nodeId].attributes[l]._value = attrValue
                         }
                         l++
+                    }
+
+                    // 修改节点类型和名称
+                    if(oldNodesList[nodeId]._type.name !== attr["type"]) {
+                        MODEL._graphs[0]._nodes[nodeId]._type.name = attr["type"]
+                    }
+                    if(oldNodesList[nodeId]._name !== attr["name"]) {
+                        MODEL._graphs[0]._nodes[nodeId]._name = attr["name"]
                     }
                 }
                 // MODEL._graphs[0]._nodes[0]._name = "test"
@@ -2505,25 +2513,21 @@ view.ValueTextView = class extends view.Control {
 
     constructor(host, value, style) {
         super(host);
-        this._element = this.createElement('div', 'sidebar-item-value');
+        this._element = this.createElement('input', 'sidebar-item-value');
         if (value) {
             const list = Array.isArray(value) ? value : [value];
-            let className = 'sidebar-item-value-line';
             for (const item of list) {
-                const line = this.createElement('div', className);
                 switch (style) {
                     case 'code':
-                        line.innerHTML = '<code>' + item + '<code>';
+                        this._element.innerHTML = '<code>' + item + '<code>';
                         break;
                     case 'bold':
-                        line.innerHTML = '<b>' + item + '<b>';
+                        this._element.innerHTML = '<b>' + item + '<b>';
                         break;
                     default:
-                        line.innerText = item;
+                        this._element.value = item
                         break;
                 }
-                this._element.appendChild(line);
-                className = 'sidebar-item-value-line-border';
             }
         }
     }
