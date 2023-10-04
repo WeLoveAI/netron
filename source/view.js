@@ -2239,7 +2239,7 @@ view.Sidebar = class {
                 }
                 // MODEL._graphs[0]._nodes[0]._name = "test"
                 // 渲染修改后的模型对象
-                await CONTEXT.renderGraph(MODEL, GRAPH[0], {})
+                // await CONTEXT.renderGraph(MODEL, GRAPH[0], {})
                 GRAPH = CONTEXT._graphs
                 CONTEXT._updateGraph(MODEL, GRAPH)
             })
